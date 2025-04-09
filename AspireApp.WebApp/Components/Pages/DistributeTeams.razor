@@ -4,15 +4,32 @@
 @inject HolmenkollenDbContext Db
 @inject DistributeStagesService DistributeStagesService
 
-Fordel Etapper
+<button class="btn btn-primary" @onclick="DistributeGroups">Fordel grupper </button>
+@if (positions is not null && positions.Any())
+{
+    positions
 }
-@code {
-    // private async Task DistributeGroups()
-    // {
-    //     // 1. Hent kandidater fra databasen
-    //     var candidates = await Db.Candidates.ToListAsync();
 
-    //     // 2. Kall på Distribute-metoden og hent listen med Position
-    //     distributedPositions = DistributeStagesService.Distribute(candidates);
+
+@code {
+    private List<Position> positions;
+
+    private void DistributeGroups()
+    {
+        var candidates = Db.Candidates.ToList();
+        var races = candidates
+            .GroupBy(c => c.RaceId)
+            .Select(group => DistributeStagesService.Distribute(group.ToList()));
+
+        var raceId = 1;
+        foreach (var racegruop in races)
+        {
+            var race = Db.RaceGroups.Find(raceId);
+            foreach (var p in racegruop)
+            {
+                Db.Positions.Add(p);
+            }
+            raceId++;
+        }
     }
 }
