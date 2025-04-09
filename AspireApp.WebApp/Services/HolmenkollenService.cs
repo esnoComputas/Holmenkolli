@@ -19,10 +19,10 @@ public class HolmenkollenService(HolmenkollenDbContext dbContext)
 
         var candidateDbModel = new Candidate
         {
-            Name = candidate.Name!,
-            PreferredStages = candidate.PreferredStages!,
-            RaceId = candidate.RaceId!.Value,
-            CreatedOn = DateTimeOffset.Now
+            Name = candidate.Name ?? "navn",
+            PreferredStages = [candidate.PreferredStage ?? 0],
+            RaceId = candidate.RaceId ?? 0,
+            CreatedOn = DateTimeOffset.UtcNow
         };
         
         await dbContext.Candidates.AddAsync(candidateDbModel);
