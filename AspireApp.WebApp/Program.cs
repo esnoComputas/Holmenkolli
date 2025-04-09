@@ -10,6 +10,7 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.AddServiceDefaults();
 builder.AddNpgsqlDbContext<HolmenkollenDbContext>(connectionName: "postgresdb");
 builder.Services.AddScoped<HolmenkollenService>();
+builder.Services.AddSingleton<DistributeStagesService>();
 
 var app = builder.Build();
 
