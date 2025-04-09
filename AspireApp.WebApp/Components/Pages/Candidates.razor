@@ -33,7 +33,7 @@ else{
             <tr>
                 <td>@candidate.Id</td>
                 <td>@candidate.Name</td>
-                <td>@((Location)(candidate.PreferredStages[0]))</td>
+                <td>@(((Location)(candidate.PreferredStages[0])).GetReadableName())</td>
                 <td>@(_raceGroups.FirstOrDefault(r => r.Id == candidate.RaceId)?.Name ?? candidate.RaceId.ToString())</td>
                 <td>@candidate.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss")</td>
             </tr>

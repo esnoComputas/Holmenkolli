@@ -1,35 +1,48 @@
 ﻿@page "/fordel"
 @using AspireApp.WebApp.Database
 @using AspireApp.WebApp.Services
+@using Microsoft.EntityFrameworkCore
 @inject HolmenkollenDbContext Db
+@rendermode InteractiveServer
 @inject DistributeStagesService DistributeStagesService
 
-<button class="btn btn-primary" @onclick="DistributeGroups">Fordel grupper </button>
-@if (positions is not null && positions.Any())
+@if (!_done)
 {
-    positions
+    <p>Fordel!</p>
 }
+else
+{
+    <p>Fordeling ferdig!</p>
+}
+<p></p>
+<button class="btn btn-primary" @onclick="DistributeGroups">Fordel grupper </button>
 
 
 @code {
-    private List<Position> positions;
-
+    private bool _done = false;
     private void DistributeGroups()
     {
+        _done = true;
         var candidates = Db.Candidates.ToList();
         var races = candidates
             .GroupBy(c => c.RaceId)
             .Select(group => DistributeStagesService.Distribute(group.ToList()));
-
+        
         var raceId = 1;
         foreach (var racegruop in races)
         {
-            var race = Db.RaceGroups.Find(raceId);
+            var race = Db.RaceGroups.Include(r => r.Positions).FirstOrDefault(r => r.Id == raceId);
+            if (race is null)
+            {
+                continue;
+            }
             foreach (var p in racegruop)
             {
-                Db.Positions.Add(p);
+                race.Positions.Add(p);
             }
+            Db.SaveChanges();
             raceId++;
         }
+
     }
 }

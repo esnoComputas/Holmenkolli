@@ -61,7 +61,10 @@ else{
 
     protected override void OnInitialized()
     {
-        Model ??= new();
+        Model ??= new()
+        {
+            RaceId = 1
+        };
         _raceGroups = HolmenkollenService.GetRaceGroups();
     }
 
