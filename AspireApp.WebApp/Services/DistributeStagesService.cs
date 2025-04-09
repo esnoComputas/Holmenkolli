@@ -24,7 +24,7 @@ public class DistributeStagesService
                 positions.Add(new Position
                 {
                     Id = positionId++,
-                    Name = candidate,
+                    Candidate = candidate,
                     Stage = assignedStage
                 });
                 assignedStages.Add(assignedStage);
@@ -39,7 +39,7 @@ public class DistributeStagesService
                     positions.Add(new Position
                     {
                         Id = positionId++,
-                        Name = candidate,
+                        Candidate = candidate,
                         Stage = -1
                     });
                 }
@@ -48,7 +48,7 @@ public class DistributeStagesService
                     positions.Add(new Position
                     {
                         Id = positionId++,
-                        Name = candidate,
+                        Candidate = candidate,
                         Stage = unassignedStage
                     });
                     assignedStages.Add(unassignedStage);
