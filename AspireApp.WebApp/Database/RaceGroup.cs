@@ -4,5 +4,5 @@ public class RaceGroup
 {
     public int Id { get; set; }
     public required string Name { get; set; }
-    public required List<Position> Positions { get; set; }
+    public required ICollection<Position> Positions { get; set; } = new List<Position>();
 }

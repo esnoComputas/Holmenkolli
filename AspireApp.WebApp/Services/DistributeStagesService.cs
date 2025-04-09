@@ -11,9 +11,6 @@ public class DistributeStagesService
         var assignedStages = new HashSet<int>();
 
         var positions = new List<Position>();
-
-        int positionId = 1;
-
         foreach (var candidate in candidates)
         {
             var assignedStage = candidate.PreferredStages
@@ -23,7 +20,6 @@ public class DistributeStagesService
             {
                 positions.Add(new Position
                 {
-                    Id = positionId++,
                     Candidate = candidate,
                     Stage = assignedStage
                 });
@@ -38,7 +34,6 @@ public class DistributeStagesService
                 {
                     positions.Add(new Position
                     {
-                        Id = positionId++,
                         Candidate = candidate,
                         Stage = -1
                     });
@@ -47,7 +42,6 @@ public class DistributeStagesService
                 {
                     positions.Add(new Position
                     {
-                        Id = positionId++,
                         Candidate = candidate,
                         Stage = unassignedStage
                     });
