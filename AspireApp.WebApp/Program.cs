@@ -9,9 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.AddServiceDefaults();
 builder.AddRedisDistributedCache(connectionName: "redis");
-builder.AddNpgsqlDbContext<TodoDbContext>(connectionName: "postgresdb");
+builder.AddNpgsqlDbContext<HolmenkollenDbContext>(connectionName: "postgresdb");
 
-builder.Services.AddScoped<TodoService>();
 
 var app = builder.Build();
 
@@ -32,7 +31,7 @@ app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<TodoDbContext>();
+    var dbContext = scope.ServiceProvider.GetRequiredService<HolmenkollenDbContext>();
     dbContext.Database.EnsureCreated();
 }
 
