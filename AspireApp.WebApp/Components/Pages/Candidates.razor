@@ -1,0 +1,55 @@
+﻿@page "/candidates"
+@using AspireApp.WebApp.Database
+@using AspireApp.WebApp.Services
+@inject HolmenkollenService HolmenkollenService
+@rendermode InteractiveServer
+
+<PageTitle>Kandidater</PageTitle>
+
+@if (_candidates is null || _raceGroups is null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+
+else{
+
+    <h1 class="mb-3">Kandidater</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Preferred Stages</th>
+            <th>Race ID</th>
+            <th>Created On</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var candidate in _candidates)
+        {
+            <tr>
+                <td>@candidate.Id</td>
+                <td>@candidate.Name</td>
+                <td>@((Location)(candidate.PreferredStages[0]))</td>
+                <td>@(_raceGroups.FirstOrDefault(r => r.Id == candidate.RaceId)?.Name ?? candidate.RaceId.ToString())</td>
+                <td>@candidate.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Candidate>? _candidates;
+    private List<RaceGroup>? _raceGroups;
+
+    protected override void OnInitialized()
+    {
+        _candidates = HolmenkollenService.GetCandidates().OrderBy(c => c.CreatedOn).ToList();
+        _raceGroups = HolmenkollenService.GetRaceGroups();
+    }
+    
+}

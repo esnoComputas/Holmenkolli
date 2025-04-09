@@ -10,6 +10,11 @@ public class HolmenkollenService(HolmenkollenDbContext dbContext)
     {
         return dbContext.RaceGroups.ToList();
     }
+
+    public List<Candidate> GetCandidates()
+    {
+        return dbContext.Candidates.ToList();
+    }
     public async Task AddCandidate(Todo.CandidateModel? candidate)
     {
         if (candidate == null)
